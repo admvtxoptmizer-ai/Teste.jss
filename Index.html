@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUXILIO BY @DARK</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .panel {
+      position: relative;
+      z-index: 1;
+      background: #111;
+      border-radius: 12px;
+      padding: 16px;
+      width: 85%;
+      max-width: 300px;
+      box-shadow: 0 0 25px rgba(255,0,0,0.7);
+      display: none;
+    }
+    h2 {
+      text-align: center;
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+    .divider {
+      height: 2px;
+      background: #FF0000;
+      margin: 10px 0 15px;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 6px;
+      border-radius: 6px;
+      background: #222;
+      margin: 0 4px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .tab.active {
+      background: #FF0000;
+      color: #000;
+    }
+    .content { display: none; }
+    .content.active { display: block; }
+    label {
+      display: flex;
+      align-items: center;
+      margin: 6px 0;
+      font-size: 13px;
+    }
+    input[type="checkbox"], input[type="radio"] {
+      accent-color: #FF0000;
+      margin-right: 8px;
+      transform: scale(1.1);
+    }
+    .fov-container { display: none; }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+      outline: none;
+      margin: 8px 0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #FF0000;
+      box-shadow: 0 0 8px #FF0000;
+      cursor: pointer;
+      border: none;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #FF0000;
+      box-shadow: 0 0 8px #FF0000;
+      cursor: pointer;
+      border: none;
+    }
+    select {
+      width: 100%;
+      padding: 6px;
+      border: 2px solid #FF0000;
+      border-radius: 6px;
+      background: #111;
+      color: white;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 14px;
+      text-align: center;
+      border: none;
+      border-radius: 8px;
+      background: #FF0000;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+      box-shadow: 0 0 12px #FF0000;
+    }
+    .info p {
+      margin: 9px 0;
+      font-size: 13px;
+    }
+
+    .login-box {
+      position: relative;
+      z-index: 1;
+      background: #111;
+      border-radius: 12px;
+      padding: 25px;
+      width: 85%;
+      max-width: 320px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255,0,0,0.7);
+    }
+
+    .avatar-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #FF0000;
+      box-shadow: 0 0 15px #FF0000;
+      object-fit: cover;
+    }
+
+    .login-box h1 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #FF0000;
+    }
+    .login-box p {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 18px;
+    }
+    .form-input {
+      width: 70%;
+      max-width: 220px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #FF0000;
+      background: #222;
+      color: white;
+      font-size: 13px;
+      margin: 0 auto 12px;
+      text-align: center;
+      display: block;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #FF0000;
+      box-shadow: 0 0 6px #FF0000;
+    }
+    
+    .status {
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 12px;
+      display: none;
+    }
+    .status.show { display: block; }
+    .status.success {
+      background: rgba(0,255,0,0.2);
+      border: 1px solid #0f0;
+      color: #0f0;
+    }
+    .status.error {
+      background: rgba(255,0,0,0.2);
+      border: 1px solid #f00;
+      color: #f00;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  
+  <!-- Login -->
+  <div class="login-box" id="loginBox">
+    <div class="avatar-container">
+      <img src="https://gifer.com/pt/3OzzE" alt="Avatar" class="avatar">
+    </div>
+    <h1>LOGIN Gringozin ff</h1>
+    <p>Digite sua chave de licença</p>
+    <p>KEY VALIDA APENAS PARA UM DISPOSITIVO</p>
+    <input type="password" id="licenseKey" class="form-input" placeholder="Gringozin-XXXXXX" required>
+    <button class="btn" onclick="checkKey()">Entrar</button>
+    <button class="btn" style="margin-top: 8px; background: #FF0000; color: #000; box-shadow: 0 0 12px #FF0000;" onclick="abrirDiscord()">Discord Oficial</button>
+  </div>
+
+  <!-- Painel -->
+  <div class="panel" id="mainPanel">
+    <h2>AUXILIO BY @Gringozin ff</h2>
+    <div class="divider"></div>
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('aimbot', this)">Aimbot</div>
+      <div class="tab" onclick="showTab('info', this)">Info</div>
+    </div>
+    
+    <div id="aimbot" class="content active">
+      <label><input type="checkbox" id="ativarAuxilio"> Ativar Auxílio</label>
+      <label><input type="checkbox" id="ativarFov"> Ativar Fov</label>
+      <div class="fov-container" id="fovContainer">
+        <input type="range" min="0" max="100" value="0" id="fovRange">
+        <p>Fov: <span id="fovValue">[0]</span></p>
+      </div>
+      <select id="tipoAuxilio">
+        <option>Auxilio Cabeça</option>
+        <option>Auxilio Pescoço</option>
+        <option>Auxilio Peito</option>
+        <option>Auxilio Recoil</option>
+      </select>
+      <div class="divider"></div>
+      <p>Tipo de Aimbot:</p>
+      <label><input type="radio" name="tipo" id="aoAtirar"> Ao Atirar</label>
+      <label><input type="radio" name="tipo" id="aoOlhar" checked> Ao Olhar</label>
+    </div>
+    
+    <div id="info" class="content info">
+      <p><b>Dispositivo:</b> <span id="modelo"></span></p>
+      <p><b>Key:</b> <span id="key"></span></p>
+      <div class="divider"></div>
+      <p><b>Dicas:</b> Ative Funções no Treinamento.</p>
+    </div>
+    
+    <button class="btn" onclick="injetarFuncoes()">INJETAR FUNÇÕES NO JOGO</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    const validKeys = [
+      "gringozin-YF47HS",
+      "gringozin-9K2LQM",
+      "gringozin-5Z8NTR",
+      "gringozin-AB12XK",
+      "gringozin-QW98PL",
+      "gringozin-XC34VT",
+      "gringozin-LM56DR",
+      "gringozin-ZP77QJ",
+      "gringozin-HB63WK",
+      "gringozin-TR92GF",
+      "gringozin-JDS46J"
+    ];
+
+    function checkKey() {
+      const inputKey = document.getElementById("licenseKey").value.trim();
+      if (validKeys.includes(inputKey)) {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("mainPanel").style.display = "block";
+        document.getElementById("key").textContent = inputKey;
+      } else {
+        alert("❌ Chave inválida! Tente novamente.");
+      }
+    }
+
+    function abrirDiscord() {
+      window.open("https://discord.gg/yZpCSVw8", "_blank");
+    }
+
+    function showTab(id, el) {
+      document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    const fovRange = document.getElementById("fovRange");
+    const fovValue = document.getElementById("fovValue");
+    const fovContainer = document.getElementById("fovContainer");
+    const ativarFov = document.getElementById("ativarFov");
+
+    fovRange.oninput = function() {
+      fovValue.textContent = `[${this.value}]`;
+    }
+    ativarFov.onchange = function() {
+      fovContainer.style.display = this.checked ? "block" : "none";
+    }
+
+    function getDeviceName() {
+      const ua = navigator.userAgent;
+      if (/iPhone/i.test(ua)) return "iPhone";
+      if (/iPad/i.test(ua)) return "iPad";
+      if (/Android/i.test(ua)) return "Android";
+      if (/Windows/i.test(ua)) return "Windows";
+      if (/Macintosh/i.test(ua)) return "Mac";
+      return "Desconhecido";
+    }
+    document.getElementById("modelo").textContent = getDeviceName();
+
+    async function injetarFuncoes() {
+      const config = {
+        ativarAuxilio: document.getElementById("ativarAuxilio").checked,
+        ativarFov: document.getElementById("ativarFov").checked,
+        fovValue: parseInt(document.getElementById("fovRange").value),
+        tipoAuxilio: document.getElementById("tipoAuxilio").value,
+        tipoAimbot: document.getElementById("aoAtirar").checked ? "aoAtirar" : "aoOlhar"
+      };
+
+      // CÓDIGO COMPLETO DE AIMBOT
+      const aimbotConfig = {
+        android: {
+          registre: "com.dts.freefireth",
+          version: "1.94.8"
+        },
+        mouse: {
+          originalGetRecoil: "NULL"
+        },
+        registreDword: "9900909",
+        aimbotGrudar: "100%",
+        aimbot: {
+          enabled: config.ativarAuxilio,
+          status: config.ativarAuxilio ? "ON" : "OFF",
+          mode: "True",
+          dwords: {
+            "00001": {
+              name: "AimBot 100%",
+              registre: "Sensitivy",
+              package: "com.dts.freefireth",
+              dword: "000009"
+            },
+            "00002": {
+              name: "Sensitivy AimBot 100%",
+              feature: "Mira-No-Treme",
+              type: "AimBot 100% Vip",
+              version: "1.94.8"
+            },
+            "00003": {
+              name: "String AimBot 100%",
+              feature: "Mira-Pesada-Com-Mais-Preciso",
+              type: "AimBot 100% Lite"
+            },
+            "00004": {
+              name: "AimBot 100% Vip",
+              registre: true,
+              package: "com.dts.freefireth",
+              version: "1.94.8"
+            },
+            "00005": {
+              name: "Sensitivy AimBot",
+              feature: "Mira-Grudar-100%",
+              type: "AimGrudar",
+              activity: "StartActivy"
+            },
+            "00006": {
+              name: "StartActivy AimBot 100%",
+              feature: "100%-Mira-Segurar-Na-Cabeca"
+            },
+            "00007": {
+              name: "StartActivy AimGrudar",
+              feature: "AimBot Grudar 100%",
+              type: "Sensitivy AimBot Vip"
+            },
+            "00008": {
+              name: "Head Kill 100%",
+              features: ["Headshot Sensitivy", "AimGrudar", "Mira-No-Tremer"],
+              package: "com.dts.freefireth"
+            },
+            "00009": {
+              name: "String AimBot 100%",
+              path: "com.dts.freefireth",
+              pathConfig: "config",
+              type: "AimBot 100%"
+            }
+          },
+          pullCabeca: [
+            { dword: "00009", target: "mira-puxar-0100%-na-cabeca" },
+            { dword: "00009", target: "mira-puxar-00100%-na-cabeca" },
+            { dword: "00009", target: "mira-puxar-000100%-na-cabeca" }
+          ]
+        },
+        nullFull: true,
+        userConfig: config
+      };
+
+      const statusDiv = document.getElementById("status");
+      statusDiv.className = "status show";
+      statusDiv.textContent = "Injetando funções...";
+      statusDiv.style.background = "rgba(255,0,0,0.2)";
+      statusDiv.style.borderColor = "#FF0000";
+      statusDiv.style.color = "#FF0000";
+
+      try {
+        console.log("🎯 Injetando AimBot:", aimbotConfig);
+
+        // Chama API (substitua pela sua API real)
+        const response = await fetch('/.netlify/functions/aimbot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(aimbotConfig)
+        });
+
+        if (response.ok) {
+          statusDiv.className = "status success show";
+          statusDiv.textContent = "✓ Funções injetadas com sucesso!";
+          
+          // Abre o jogo após injetar
+          setTimeout(() => {
+            abrirJogo();
+          }, 1500);
+        } else {
+          throw new Error("Erro na API");
+        }
+      } catch (error) {
+        console.error("Erro:", error);
+        statusDiv.className = "status error show";
+        statusDiv.textContent = "✗ Erro ao injetar funções";
+      }
+
+      setTimeout(() => {
+        statusDiv.classList.remove("show");
+      }, 3000);
+    }
+
+    function abrirJogo() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/android/i.test(userAgent)) {
+        window.location.href = "intent://#Intent;scheme=freefire;package=com.dts.freefireth;end";
+      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        window.location.href = "freefire://";
+      } else {
+        alert("Este botão funciona apenas em dispositivos Android ou iOS com Free Fire instalado.");
+      }
+    }
+
+    // Partículas
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 120 },
+        "color": { "value": "#FF0000" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.9 },
+        "size": { "value": 3 },
+        "line_linked": {
+          "enable": true,
+          "distance": 140,
+          "color": "#FF0000",
+          "opacity": 0.8,
+          "width": 2
+        },
+        "move": {
+          "enable": true,
+          "speed": 2.5,
+          "direction": "none",
+          "out_mode": "bounce"
+        }
+      }
+    });
+  </script>
+</body>
+</html
